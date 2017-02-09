@@ -1,0 +1,4 @@
+#theCanvas {
+  background-image: -moz-radial-gradient(30px 30px, #fff, #eef);
+  background-image: -webkit-radial-gradient(30px 30px, #fff, #eef);
+}
