@@ -4,6 +4,7 @@ _KSM = {
     var canvas = document.getElementById('theCanvas');
     if (canvas.getContext) {
       var context = canvas.getContext('2d');
+
       if (typeof left === 'undefined') {
         left = 10;
       };
@@ -35,3 +36,5 @@ _KSM.draw(120, 120, 400, 240, 'burlywood', 'lemonchiffon');
 // new code--draw has default values.  all legacy code works
 _KSM.draw(530, 10, 100, 100, 'red', 'teal');
 _KSM.draw(10, 310, 160, 160, 'red');
+// problems with readability
+_KSM.draw(270, undefined, undefined, undefined, undefined, 'green');

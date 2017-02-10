@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html language="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Events 1</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+    <link rel="stylesheet" href="eventStyles.css">
+  </head>
+  <body>
+    <div id="workArea">
+      <h5 class="clickable">Work Area</h5>
+      <hr>
+      <input type="button" name="clickMe" class="clickable" value="Click Me!">
+    </div>
+
+    <div id="messages">
+      <h5>Messages</h5>
+      <hr>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(function () {
+      $('.clickable').click(function () {
+        $('#messages').append('click occurred<br/>');
+      });
+    });
+  </script>
+</html>
