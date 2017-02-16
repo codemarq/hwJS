@@ -2,7 +2,7 @@
 <html language="en">
   <head>
     <meta charset="utf-8">
-    <title>Events 9: Namespace </title>
+    <title>Events 10: Click Count </title>
     <meta name="description" content="This exercise will show how to make use of event handling, stop propagation, stop immediate propagation, prevent defaults.">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
     <link rel="stylesheet" href="eventStyles.css">
@@ -39,36 +39,23 @@
 
       $('.clickable')
         // create namespaces demo and test
-        .on('click.test', function(event){
-          showEventMessage.call(this, {eventType: 'test ' + event.type});
-        })
-        .on('click.demo dblclick.demo mousedown.demo', function (event) {
-          if (!event.isPropagationStopped() &&
-              !event.isImmediatePropagationStopped() &&
-              !event.isDefaultPrevented())
-          {
-            showEventMessage.call(this, {eventType: event.type});
-            event.stopImmediatePropagation();
+        .on('click', function (event) {
+          var $this       = $(this),
+              clickCount  = ($this.data('clickcount') || 0) + 1;
 
-            if (event.type === 'mousedown.demo') {
-              event.preventDefault();
-            }
+          $this.data('clickcount', clickCount);
+
+          showEventMessage.call(this, {eventType: '' + clickCount + ') ' + event.type});
+
+          if (clickCount === 3) {
+            $this.trigger('click3');
           }
         })
-        .on('mousedown.demo', function(event) {
-          if (!event.isPropagationStopped() &&
-              !event.isImmediatePropagationStopped() &&
-              !event.isDefaultPrevented())
-          {
-            showEventMessage.call(this, {eventType: event.type, suffix: '#2<br />'});
-          }
-        })
-        // fix for Internet Explorer, so text isn't selected after doubleclick
-        .on('selectstart.demo', function(event){
-          return false;
-        })
-        // all demo namespace events are off, so their messages do not display. only the .test ones
-        .off('.demo');
+        .on('click3', function (event) {
+          event.stopPropagation();
+          showEventMessage.call(this, {eventType: event.type});
+          $(this).addClass('highlight');
+        });
     });
   </script>
 </html>
