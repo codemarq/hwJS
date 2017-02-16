@@ -67,11 +67,23 @@
           if (clickCount === 3) {
             $this.trigger('click3');
           }
+
+          if ($this.attr('type') === 'button') {
+            loadRecord();
+          }
         })
         .on('click3', function (event) {
           event.stopPropagation();
           showEventMessage.call(this, {eventType: event.type});
           $(this).addClass('highlight');
+        });
+
+      $(internalObject)
+        .on('recordsLoaded', function (event) {
+          showEventMessage.call(this, {eventType: event.type});
+          $.each(internalObject.records, function () {
+            $('#messages').append(' ---- ' + this.description  + ': ' + this.value + '<br />')
+          })
         });
     });
   </script>
