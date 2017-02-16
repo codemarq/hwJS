@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html language="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Events 12: More Event Params</title>
+    <meta name="description" content="This exercise will show how to make use of event handling, stop propagation, stop immediate propagation, prevent defaults.">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+    <link rel="stylesheet" href="eventStyles.css">
+  </head>
+  <body>
+    <div id="workArea" class="clickable">
+      <h5 class="clickable">Work Area</h5>
+      <hr>
+      <input type="button" name="clickMe" class="clickable" value="Click Me!">
+      <p class="clickable">Click Me Too!!</p>
+      <p class="clickable">This is some more text with an embedded <span class="clickable">clickable</span> element.
+      </p>
+    </div>
+
+    <div id="messages">
+      <h5>Messages</h5>
+      <hr>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(function () {
+      var showEventMessage = function (options) {
+        options = $.extend({
+          eventType: 'CLICK',
+          eventTarget: this,
+          suffix: '<br/>'
+        }, options);
+        var message = options.eventType + ': ' +
+                      (options.eventTarget.nodeName || 'unknown') +
+                      options.suffix;
+        $('#messages').append(message);
+      },
+      internalObject = {
+        records: [],
+        maxCount: 5
+      },
+      notifyObject = $({nodeName: 'INTERNAL'}),
+      loadRecord = function() {
+        var id = internalObject.records.length;
+
+        if (id < internalObject.maxCount) {
+          internalObject.records.push({
+            'description': 'Record id ' + id,
+            value: Math.floor(Math.random() * 5000)
+          });
+          setTimeout(loadRecord, Math.floor(Math.random() * 1000));
+        } else {
+          $(notifyObject).trigger('recordsloaded');
+        }
+      };
+      // =========================================================================================
+
+      $('.clickable')
+        // create namespaces demo and test
+        .on('click', function (event) {
+          var $this       = $(this),
+              clickCount  = ($this.data('clickcount') || 0) + 1;
+
+          $this.data('clickcount', clickCount);
+
+          showEventMessage.call(this, {eventType: '' + clickCount + ') ' + event.type});
+
+          if (clickCount === 3) {
+            $this.trigger('click3');
+          }
+
+          if ($this.attr('type') === 'button') {
+            loadRecord();
+          }
+        })
+        .on('click3', function (event) {
+          event.stopPropagation();
+          showEventMessage.call(this, {eventType: event.type});
+          $(this).addClass('highlight');
+        });
+
+      $(internalObject)
+        .on('recordsLoaded', function (event) {
+          showEventMessage.call(this, {eventType: event.type});
+          $.each(internalObject.records, function () {
+            $('#messages').append(' ---- ' + this.description  + ': ' + this.value + '<br />')
+          })
+        });
+    });
+  </script>
+</html>
