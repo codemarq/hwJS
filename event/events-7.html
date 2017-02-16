@@ -2,7 +2,7 @@
 <html language="en">
   <head>
     <meta charset="utf-8">
-    <title>Events 6: .on </title>
+    <title>Events 7: .off </title>
     <meta name="description" content="This exercise will show how to make use of event handling, stop propagation, stop immediate propagation, prevent defaults.">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
     <link rel="stylesheet" href="eventStyles.css">
@@ -38,6 +38,8 @@
       // =========================================================================================
 
       $('.clickable')
+        // clear any click event handlers previously tied to this event
+        .off('click')
         .on('click dblclick mousedown', function (event) {
           if (!event.isPropagationStopped() &&
               !event.isImmediatePropagationStopped() &&
@@ -51,7 +53,8 @@
             }
           }
         })
-        .on('mousedown', function(event) {
+        .off('click')
+        .on('click mousedown', function(event) {
           if (!event.isPropagationStopped() &&
               !event.isImmediatePropagationStopped() &&
               !event.isDefaultPrevented())
