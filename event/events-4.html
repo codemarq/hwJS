@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html language="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Events 4</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+    <link rel="stylesheet" href="eventStyles.css">
+  </head>
+  <body>
+    <!-- added clickable class to workarea div -->
+    <div id="workArea" class="clickable">
+      <h5 class="clickable">Work Area</h5>
+      <hr>
+      <input type="button" name="clickMe" class="clickable" value="Click Me!">
+      <p class="clickable">Click Me Too!!</p>
+      <!-- added clickable class to p, nesting clickable elements -->
+      <p class="clickable">This is some more text with an embedded <span class="clickable">clickable</span> element.
+      </p>
+    </div>
+
+    <div id="messages">
+      <h5>Messages</h5>
+      <hr>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(function () {
+      var showEventMessage = function (options) {
+        options = $.extend({
+          eventType: 'CLICK',
+          eventTarget: this,
+          suffix: '<br/>'
+        }, options);
+        var message = options.eventType + ': ' + (options.eventTarget.nodeName || 'unknown') + options.suffix;
+        $('#messages').append(message);
+      };
+      // =========================================================================================
+      $('.clickable')
+        // passing the JS event to each method as a parameter
+        .click(function (event) {
+          // use the event.type parameter for eventType
+          showEventMessage.call(this, {eventType: event.type});
+        })
+        .dblclick(function (event) {
+          // double clicking shows how events are bubbled up the DOM
+          // all mousedowns get handled before the click
+          // then mousedowns
+          // then click
+          // then doubleclick.
+          // this is important.
+          showEventMessage.call(this, {eventType: event.type});
+        })
+        .mousedown(function (event) {
+          showEventMessage.call(this, {eventType: event.type});
+          // return false;
+        });
+    });
+  </script>
+</html>

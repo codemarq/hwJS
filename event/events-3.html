@@ -33,15 +33,36 @@
         var message = options.eventType + ': ' + (options.eventTarget.nodeName || 'unknown') + options.suffix;
         $('#messages').append(message);
       };
-
-      $('.clickable').click(function () {
-        // by using .call, a jQuery shorthand function, we can pass this from clicked object to the
-        // function call. This makes scoping of "this" more maintainable
-        showEventMessage.call(this, {suffix: '!<br/>'});
-        // otherwise, we have to implicitly pass this to the eventTarget parameter of the
-        // showEventMessage() function like so:
-        // showEventMessage({eventTarget: this});
-      });
+      // =========================================================================================
+      // We will use chaining below to define multiple methods for the "clickable" class
+      //
+      // First we use the jQuery selector to create an object array for all HTML elements that have
+      // the "clickable" class
+      $('.clickable')
+        // for each object in the array, attach an event handler for the click event
+        .click(function () {
+          showEventMessage.call(this, {suffix: '!<br/>'});
+        })
+        .dblclick(function () {
+          showEventMessage.call(this, {eventType: 'double click'});
+        })
+        .mousedown(function () {
+          showEventMessage.call(this, {eventType: 'mouse down'});
+          // Prevent default behaviour, such as highlighting selected text
+          return false;
+          // ^ returning false at the end of our mousedown event handler is a great way to prevent
+          // users from selecting text on a page.  right now this mousedown event handler is only
+          // tied to our clickable text.  we could tie it to another element, or to the html body
+          // to prevent further selection of text. Internet Explorer is of course different in that
+          // the selection of text is not tied to the mousedown event.
+          //
+          // =====================================================================================
+          // Anyway, return false is the old way of preventing default.  JS has
+          // preventDefault() function
+          // but is not supported before IE9.  So jQuery is helpful here as its method
+          // stopPropagation() will use preventDefault() or return false if browser doesn't support.
+          // stopImmediatePropagation() will
+        });
     });
   </script>
 </html>
