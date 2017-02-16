@@ -52,7 +52,35 @@
         })
         .mousedown(function (event) {
           showEventMessage.call(this, {eventType: event.type});
+          // =====================================================================================
+          // RETURNING FALSE
+          //
+          // return false will cancel additional mousedowns for parents as event bubbles up the DOM
           // return false;
+          // =====================================================================================
+          // PREVENT DEFAULT
+          //
+          // preventDefault is not the same as returning false. it doesn't cancel any additional
+          // events it only prevents the default behaviour of that event.  all events still fire.
+          event.preventDefault();
+          // =====================================================================================
+          // STOP PROPAGATION
+          //
+          // stop propagation will keep the event from bubbling up the DOM. only one event will
+          // fire for the mousedown. it will not propagate up to all parents.
+          // event.stopPropagation();
+          // =====================================================================================
+          // STOP IMMEDIATE PROPAGATION
+          //
+          // For this we will create an additional mousedown method at the same level. this is
+          // very common where multiple event methods are tied to the same element.
+          event.stopImmediatePropagation();
+        })
+        .mousedown(function(event) {
+          showEventMessage.call(this, {
+            eventType: event.type,
+            suffix: '#2<br />'
+          });
         });
     });
   </script>
