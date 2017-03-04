@@ -1,0 +1,23 @@
+{
+  "name": "hw_javascript",
+  "version": "1.0.0",
+  "description": "pluralsight JavaScript and jQuery exercises.  This is just a server to avoid CORS in exercises.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codemarq/hwJS.git"
+  },
+  "author": "John-Mike Marquardt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codemarq/hwJS/issues"
+  },
+  "homepage": "https://github.com/codemarq/hwJS#readme",
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "express": "^4.15.0"
+  }
+}
